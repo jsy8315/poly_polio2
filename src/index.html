@@ -40,6 +40,19 @@
 
   <nav>
     네비게이션바 넣고 싶다
+    <h2>Validations Demo</h2>
+    <form action="/dummy">
+      <label for="first">Enter First Name</label>
+      <input type="text" id="first" name="first" required>
+      <p>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" minlength="5" maxlength="25" required>
+      </p>
+      <p>
+        <input type="email" required>
+      </p>
+      <button>submit</button>
+    </form>
   </nav>
 
   <div>
