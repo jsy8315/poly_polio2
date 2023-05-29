@@ -8,60 +8,135 @@
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <style>
-    header {
-      background-color: gray;
-      height: 100px;
-    }
-
-    nav {
-      background-color: burlywood;
-      height: 100px;
-
-    }
-
-    div {
-      background-color: aquamarine;
-      min-height: 600px;
-      /* 수정: 최소 높이로 변경 */
-    }
-
-    footer {
-      background-color: gray;
-      height: 200px;
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="app.css">
 </head>
 
 <body>
-  <header>
-    상단 정보1
-  </header>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg bg-light" style="margin-bottom: 30px;">
+      <div class="container-fluid d-flex justify-content-end">
+        <img src="./img/hanalogo.png" width="70px">
+        <a class="navbar-brand display-3" href="#">
+          <strong>하나헬스케어</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">보험</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">카드</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">대출상품</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                기타금융상품
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">안내1</a></li>
+                <li><a class="dropdown-item" href="#">안내2</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-  <nav>
-    네비게이션바 넣고 싶다
-    <h2>Validations Demo</h2>
-    <form action="/dummy">
-      <label for="first">Enter First Name</label>
-      <input type="text" id="first" name="first" required>
-      <p>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" minlength="5" maxlength="25" required>
-      </p>
-      <p>
-        <input type="email" required>
-      </p>
-      <button>submit</button>
-    </form>
-  </nav>
+    <div class="row" style="margin: 50px; ">
+      <div class="col-md-6" style="padding-right: calc(var(--bs-gutter-x) * 0.2);">
+        <img src="./img/CF하나손해보험.하나_에코플러스자동차보험_마이플랜.구해보자_지구편03.jpg" alt="광고모델이 수줍게 웃는 모습" class="img-fluid visual">
+      </div>
+      <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+        <h2>소 잃기 전에 좋은 외양간 추천 받기</h2>
+        <br>
+        <h4>본인의 나이, 성별, 혈압 등 생체 정보를 입력하고</h4>
+        <h4>꼭 맞는 보험 상품을 추천받으세요 </h4>
+        <a href="#" class="btn btn-success align-self-end">지금 바로 추천받기</a>
+      </div>
+    </div>
+    <div class="container text-center">
+      <div style="display: inline-block;">
+        <div class="card" style="width: 14rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">새로 나온 대출 상품</h5>
+            <p class="card-text">해치지 않아요</p>
+            <a href="#" class="btn btn-success">자세히 보기</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: inline-block;">
+        <div class="card" style="width: 14rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">새로 나온 대출 상품</h5>
+            <p class="card-text">해치지 않아요</p>
+            <a href="#" class="btn btn-success">자세히 보기</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: inline-block;">
+        <div class="card" style="width: 14rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">새로 나온 대출 상품</h5>
+            <p class="card-text">해치지 않아요</p>
+            <a href="#" class="btn btn-success">자세히 보기</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: inline-block;">
+        <div class="card" style="width: 14rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">새로 나온 대출 상품</h5>
+            <p class="card-text">해치지 않아요</p>
+            <a href="#" class="btn btn-success">자세히 보기</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: inline-block;">
+        <div class="card" style="width: 14rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">새로 나온 대출 상품</h5>
+            <p class="card-text">해치지 않아요</p>
+            <a href="#" class="btn btn-success">자세히 보기</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div>
-    본문 내용
   </div>
 
-  <footer>
-    하단 정보
-  </footer>
+
+  </div>
+  <!-- script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
