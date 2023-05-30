@@ -1,0 +1,22 @@
+[
+    {
+        "image": "./img/insu1.jpeg",
+        "title": "새로 나온 보험 상품",
+        "description": "보험상품보험상품보험상품보험상품보험상품보험상품"
+    },
+    {
+        "image": "./img/insu2.jpeg",
+        "title": "인기 보험 상품",
+        "description": "보험상품보험상품보험상품보험상품보험상품보험상품"
+    },
+    {
+        "image": "./img/insu1.jpeg",
+        "title": "신한 캐피탈 보험",
+        "description": "보험상품보험상품보험상품보험상품보험상품보험상품"
+    },
+    {
+        "image": "./img/insu3.png",
+        "title": "무배당 종신보험",
+        "description": "보험상품보험상품보험상품보험상품보험상품보험상품"
+    }
+]
