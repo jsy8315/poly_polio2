@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .selected {
+            background-color: mediumaquamarine !important;
+            cursor: move;
+        }
+
+        .odd {
+            background-color: lightgray;
+        }
+
+        .even {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="forum-table">
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="master-checkbox"></th>
+                <th>ID</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- The table body will be populated dynamically -->
+        </tbody>
+    </table>
+
+    <div id="pagination">
+        <!-- Pagination buttons will be dynamically created here -->
+    </div>
+
+    <script>
+        const pageSize = 10; // Number of items to display per page
+        let currentPage = 1; // Current page number
+        let selectedItems = []; // Array to store selected item IDs
+        let draggedElem = null; // Reference to the currently dragged row
+        let draggedElemIndex = -1; // Index of the dragged row
+
+        function fetchAndRenderData(page) {
+            fetch('forum.json')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not OK');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    const startIndex = (page - 1) * pageSize;
+                    const endIndex = startIndex + pageSize;
+                    const tableBody = document.querySelector('#forum-table tbody');
+                    tableBody.innerHTML = '';
+
+                    for (let i = startIndex; i < Math.min(endIndex, data.length); i++) {
+                        const item = data[i];
+                        const row = document.createElement('tr');
+                        const checkboxCell = document.createElement('td');
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.dataset.itemId = item.id;
+                        checkbox.addEventListener('change', handleCheckboxChange);
+                        checkboxCell.appendChild(checkbox);
+                        row.appendChild(checkboxCell);
+                        const idCell = document.createElement('td');
+                        idCell.textContent = item.id;
+                        row.appendChild(idCell);
+                        const titleCell = document.createElement('td');
+                        titleCell.textContent = item.title;
+                        row.appendChild(titleCell);
+                        tableBody.appendChild(row);
+                    }
+
+                    applySelectedItems();
+                    applyRowColors();
+                    renderPagination(data.length);
+                })
+                .catch((error) => {
+                    console.log('Error:', error);
+                });
+        }
+
+        function renderPagination(totalItems) {
+            const paginationContainer = document.querySelector('#pagination');
+            paginationContainer.innerHTML = '';
+
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const maxVisiblePages = 10;
+            const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            const prevButton = createPaginationButton('Prev', currentPage > 1 ? currentPage - 1 : null);
+            paginationContainer.appendChild(prevButton);
+
+            for (let page = startPage; page <= endPage; page++) {
+                const pageButton = createPaginationButton(page, page !== currentPage ? page : null);
+                paginationContainer.appendChild(pageButton);
+            }
+
+            const nextButton = createPaginationButton('Next', currentPage < totalPages ? currentPage + 1 : null);
+            paginationContainer.appendChild(nextButton);
+        }
+
+        function createPaginationButton(label, page) {
+            const button = document.createElement('button');
+            button.textContent = label;
+            if (page !== null) {
+                button.addEventListener('click', () => {
+                    currentPage = page;
+                    fetchAndRenderData(currentPage);
+                });
+            } else {
+                button.disabled = true;
+            }
+            return button;
+        }
+
+        function applyRowColors() {
+            const rows = document.querySelectorAll('#forum-table tbody tr');
+            rows.forEach((row, index) => {
+                row.classList.remove('odd', 'even');
+                row.classList.add(index % 2 === 0 ? 'odd' : 'even');
+            });
+        }
+
+        function handleDragStart(event) {
+            draggedElem = event.target.closest('tr');
+            draggedElemIndex = Array.from(draggedElem.parentNode.children).indexOf(draggedElem);
+            event.dataTransfer.setData('text/plain', event.target.dataset.itemId);
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            const target = event.target.closest('tr');
+            if (target && target !== draggedElem) {
+                const currentIndex = Array.from(target.parentNode.children).indexOf(target);
+                if (currentIndex > draggedElemIndex) {
+                    target.parentNode.insertBefore(draggedElem, target.nextSibling);
+                } else {
+                    target.parentNode.insertBefore(draggedElem, target);
+                }
+                draggedElemIndex = currentIndex;
+            }
+        }
+
+        function handleCheckboxChange(event) {
+            const itemId = event.target.dataset.itemId;
+            if (event.target.checked) {
+                selectedItems.push(itemId);
+            } else {
+                const index = selectedItems.indexOf(itemId);
+                if (index > -1) {
+                    selectedItems.splice(index, 1);
+                }
+            }
+            applySelectedItems();
+            applyRowColors();
+        }
+
+        function applySelectedItems() {
+            const checkboxes = document.querySelectorAll('#forum-table tbody input[type="checkbox"]');
+            checkboxes.forEach((checkbox) => {
+                const itemId = checkbox.dataset.itemId;
+                checkbox.checked = selectedItems.includes(itemId);
+                const row = checkbox.closest('tr');
+                if (checkbox.checked) {
+                    row.classList.add('selected');
+                    row.draggable = true;
+                } else {
+                    row.classList.remove('selected');
+                    row.draggable = false;
+                }
+            });
+        }
+
+        function handleHeaderCheckboxChange(event) {
+            const checkboxes = document.querySelectorAll('#forum-table tbody input[type="checkbox"]');
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = event.target.checked;
+                const itemId = checkbox.dataset.itemId;
+                if (event.target.checked && !selectedItems.includes(itemId)) {
+                    selectedItems.push(itemId);
+                } else if (!event.target.checked && selectedItems.includes(itemId)) {
+                    const index = selectedItems.indexOf(itemId);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                    }
+                }
+            });
+            applyRowColors();
+            applySelectedRowColors(event.target.checked);
+        }
+
+        function applySelectedRowColors(checked) {
+            const rows = document.querySelectorAll('#forum-table tbody tr');
+            rows.forEach((row) => {
+                if (checked) {
+                    row.classList.add('selected');
+                } else {
+                    row.classList.remove('selected');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.querySelector('#forum-table');
+            const tbody = table.querySelector('tbody');
+
+            tbody.addEventListener('dragstart', handleDragStart);
+            tbody.addEventListener('dragover', handleDragOver);
+
+            const headerCheckbox = document.querySelector('#forum-table thead .master-checkbox');
+            headerCheckbox.addEventListener('change', handleHeaderCheckboxChange);
+
+            fetchAndRenderData(currentPage);
+        });
+    </script>
+</body>
+
+</html>
